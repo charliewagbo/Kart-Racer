@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cvfi4rndu40bw"]
+
+[ext_resource type="Texture2D" uid="uid://ch5uav6jxmx1v" path="res://addons/kenney_particle_pack/flame_04.png" id="1_b43gi"]
+
+[resource]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.870588, 0.34902, 0.0705882, 1)
+albedo_texture = ExtResource("1_b43gi")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false

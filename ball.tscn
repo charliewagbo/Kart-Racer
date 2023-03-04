@@ -7,7 +7,7 @@ bounce = 0.2
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_2ivfp"]
 
-[node name="RigidBody3D" type="RigidBody3D"]
+[node name="Ball" type="RigidBody3D"]
 mass = 0.5
 physics_material_override = SubResource("PhysicsMaterial_qhv2y")
 gravity_scale = 2.0

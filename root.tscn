@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://ihq73o2ey28i"]
+[gd_scene load_steps=9 format=3 uid="uid://ihq73o2ey28i"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_cdxq5"]
 [ext_resource type="PackedScene" path="res://maps/battlemap/battlemap.tscn" id="2_cqbw0"]
 [ext_resource type="PackedScene" uid="uid://bov0ktfl4ey8l" path="res://ball.tscn" id="3_5ywgg"]
+[ext_resource type="PackedScene" uid="uid://c4opmrgwbd1kk" path="res://item_box.tscn" id="4_7fpbg"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_s800t"]
 
@@ -82,8 +83,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 133.133, -61.6208, 123.582)
 transform = Transform3D(500, 0, 0, 0, 500, 0, 0, 0, 500, 141.435, -286.161, 143.014)
 shape = SubResource("BoxShape3D_xnvij")
 
-[node name="RigidBody3D" parent="." instance=ExtResource("3_5ywgg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 4)
+[node name="Items" type="Node3D" parent="."]
+
+[node name="Ball" parent="Items" instance=ExtResource("3_5ywgg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.98211, -9.86129, 23.4806)
+
+[node name="Item" parent="Items" instance=ExtResource("4_7fpbg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.0565, -4.49156)
+
+[node name="Item2" parent="Items" instance=ExtResource("4_7fpbg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.2897, -11.0565, 16.215)
+
+[node name="Item3" parent="Items" instance=ExtResource("4_7fpbg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.2897, -11.0565, 66.9043)
+
+[node name="Item4" parent="Items" instance=ExtResource("4_7fpbg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0485, -11.0565, 66.9043)
 
 [connection signal="pressed" from="CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Host Button" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Join Button" to="." method="_on_join_button_pressed"]

@@ -52,3 +52,4 @@ func upnp_settup():
 		"UPNP Port Mapping Failed! Error %s" % map_result)
 	
 	print("Success! Join at: %s" % upnp.query_external_address())
+
