@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dbmgtpwqhs5yx"]
+
+[ext_resource type="Script" path="res://Banana.gd" id="1_5qodh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_82ja1"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_3bc26"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c6upt"]
+albedo_color = Color(1, 1, 0, 1)
+
+[node name="Banana" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("1_5qodh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_82ja1")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("PrismMesh_3bc26")
+surface_material_override/0 = SubResource("StandardMaterial3D_c6upt")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

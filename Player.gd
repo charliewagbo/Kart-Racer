@@ -1,7 +1,8 @@
 extends Node3D
-
+const Banana = preload("res://banana.tscn")
 @onready var ball = $Ball
 @onready var mesh = $Model
+@onready var model = $Model/Mesh
 @onready var ground_ray = $Model/RayCast3D
 @onready var camera = $Model/Camera3D
 @onready var wheel_front_left = $Model/Mesh/wheel_frontLeft
@@ -13,7 +14,8 @@ extends Node3D
 @onready var smoke_right = $Model/Mesh/Particles/RightTyre
 @onready var smoke_left = $Model/Mesh/Particles/LeftTyre
 @onready var boost_particles = $Model/Mesh/Particles/Boost
-
+@onready var colision_timer = $Colision
+@onready var sync = $sync
 #positioning relative to the colision shape
 var sphere_offset = Vector3(0, -1.0,0)
 @export var acceleration = 50
@@ -31,6 +33,7 @@ var boosting = false
 var speed_input = 0
 var rotate_input = 0
 var boost_current = 0
+var frozen = false
 
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
@@ -46,7 +49,8 @@ func _physics_process(delta):
 	if not is_multiplayer_authority(): return
 	mesh.transform.origin = ball.transform.origin + sphere_offset
 	# Calc Acceleration
-	ball.apply_central_force(-mesh.global_transform.basis.z * (speed_input + boost_current))
+	if not frozen:
+		ball.apply_central_force(-mesh.global_transform.basis.z * (speed_input + boost_current))
 
 func _process(delta):
 	if not is_multiplayer_authority(): return
@@ -64,8 +68,9 @@ func _process(delta):
 	
 	wheel_front_right.rotation.y = rotate_input
 	wheel_front_left.rotation.y = rotate_input
-	
-	if ball.linear_velocity.length() > turn_stop_limit:
+	if frozen:
+		model.rotate_y(0.5)
+	if ball.linear_velocity.length() > turn_stop_limit and not frozen:
 		var new_basis = mesh.global_transform.basis.rotated(mesh.global_transform.basis.y, rotate_input)
 		mesh.global_transform.basis = mesh.global_transform.basis.slerp(new_basis, turn_speed * delta)
 		
@@ -87,10 +92,6 @@ func align_with_y(xform, new_y):
 	xform.basis.x = -xform.basis.z.cross(new_y)
 	xform.basis = xform.basis.orthonormalized()
 	return xform
-	
-func get_item():
-	item_sprite.frame = 1
-
 
 func _unhandled_input(event):
 	if not is_multiplayer_authority(): return
@@ -101,9 +102,32 @@ func _unhandled_input(event):
 			boost_current = boost
 			boost_particles.emitting = true
 			boost_timer.start()
+		if item_sprite.frame == 2:
+			drop_item.rpc()
 		item_sprite.frame = 0
 
+func get_item():
+	item_sprite.frame = randi() % 2 + 1
+
+func hit_by_item():
+	frozen = true
+	#ball.freeze = true
+	ball.linear_velocity = Vector3(0,0,0)
+	colision_timer.start()
 
 func _on_boost_timeout():
 	boost_current = 0
 	boost_particles.emitting = false
+
+
+func _on_colision_timeout():
+	frozen = false
+	model.global_rotation = mesh.global_rotation
+	#ball.freeze = false
+
+@rpc("call_local")
+func drop_item():
+	Banana.instantiate()
+	var banana = Banana.instantiate()
+	banana.set_global_position(mesh.global_position + Vector3(0,0.5,0) + 2 * mesh.global_transform.basis.z)
+	add_sibling(banana)
