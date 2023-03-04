@@ -33,6 +33,9 @@ properties/7/sync = true
 properties/8/path = NodePath("Model/Mesh/Particles/Boost:emitting")
 properties/8/spawn = true
 properties/8/sync = true
+properties/9/path = NodePath("Model/Nametag:text")
+properties/9/spawn = true
+properties/9/sync = true
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_t8w5x"]
 radius = 1.0
@@ -411,6 +414,12 @@ emitting = false
 amount = 30
 process_material = SubResource("ParticleProcessMaterial_hdcqb")
 draw_pass_1 = SubResource("QuadMesh_78h6k")
+
+[node name="Nametag" type="Label3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.23243, 0)
+billboard = 1
+text = "player"
+font_size = 80
 
 [node name="HUD" type="CanvasLayer" parent="."]
 visible = false

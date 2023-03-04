@@ -16,6 +16,7 @@ const Banana = preload("res://banana.tscn")
 @onready var boost_particles = $Model/Mesh/Particles/Boost
 @onready var colision_timer = $Colision
 @onready var sync = $sync
+@onready var nametag = $Model/Nametag
 #positioning relative to the colision shape
 var sphere_offset = Vector3(0, -1.0,0)
 @export var acceleration = 50
@@ -44,6 +45,8 @@ func _ready():
 	camera.current = true
 	hud.visible = true
 
+func set_player_name(name):
+	nametag.text = name
 
 func _physics_process(delta):
 	if not is_multiplayer_authority(): return

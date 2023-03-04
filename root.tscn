@@ -56,6 +56,11 @@ layout_mode = 2
 text = "Main Menu"
 horizontal_alignment = 1
 
+[node name="Name Entry" type="LineEdit" parent="CanvasLayer/Main Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter Your Name"
+alignment = 1
+
 [node name="Host Button" type="Button" parent="CanvasLayer/Main Menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Host"
