@@ -441,6 +441,13 @@ size_flags_vertical = 8
 theme_override_font_sizes/font_size = 40
 text = "0"
 
+[node name="Coins" type="Label" parent="HUD/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "0"
+
 [node name="item" type="Sprite2D" parent="HUD/MarginContainer"]
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("3_ub00w")

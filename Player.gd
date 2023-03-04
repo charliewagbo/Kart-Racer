@@ -17,6 +17,8 @@ const Banana = preload("res://banana.tscn")
 @onready var colision_timer = $Colision
 @onready var sync = $sync
 @onready var nametag = $Model/Nametag
+@onready var coins_display = $HUD/MarginContainer/Coins
+
 #positioning relative to the colision shape
 var sphere_offset = Vector3(0, -1.0,0)
 @export var acceleration = 50
@@ -34,6 +36,7 @@ var boosting = false
 var speed_input = 0
 var rotate_input = 0
 var boost_current = 0
+var coins = 0
 var frozen = false
 
 func _enter_tree():
@@ -111,6 +114,11 @@ func _unhandled_input(event):
 
 func get_item():
 	item_sprite.frame = randi() % 2 + 1
+
+func get_coin():
+	coins = coins + 1
+	coins_display.text = str(coins)
+	
 
 func hit_by_item():
 	frozen = true

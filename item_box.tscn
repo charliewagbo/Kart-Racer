@@ -17,7 +17,7 @@ gravity = Vector3(0, 0, 0)
 initial_velocity_max = 10.0
 angular_velocity_max = 90.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_asy1y"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sjy3b"]
 transparency = 1
 shading_mode = 0
 albedo_texture = ExtResource("3_lpduq")
@@ -27,7 +27,7 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 
 [sub_resource type="QuadMesh" id="QuadMesh_rbpbh"]
-material = SubResource("StandardMaterial3D_asy1y")
+material = SubResource("StandardMaterial3D_sjy3b")
 
 [node name="Item" type="Area3D"]
 collision_layer = 0
