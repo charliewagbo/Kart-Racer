@@ -1,0 +1,62 @@
+[gd_scene load_steps=11 format=3 uid="uid://dc3iwgmj7xjvw"]
+
+[ext_resource type="Script" path="res://Shell.gd" id="1_bmgg5"]
+[ext_resource type="Texture2D" uid="uid://bww8oavbw7k5l" path="res://addons/kenney_prototype_textures/green/texture_01.png" id="2_rwmpm"]
+[ext_resource type="Texture2D" uid="uid://dgnryg0yotlgq" path="res://addons/kenney_prototype_textures/orange/texture_01.png" id="3_er6dm"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_txn28"]
+height = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_djres"]
+albedo_texture = ExtResource("2_rwmpm")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_j0ybf"]
+height = 0.15
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_brjg4"]
+albedo_texture = ExtResource("3_er6dm")
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_y1ecm"]
+friction = 0.0
+bounce = 0.77
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3mycn"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_h8p4o"]
+height = 0.3
+radius = 0.6
+
+[node name="Shell" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+script = ExtResource("1_bmgg5")
+
+[node name="Mesh" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh"]
+mesh = SubResource("CylinderMesh_txn28")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_djres")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.225, 0)
+mesh = SubResource("CylinderMesh_j0ybf")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_brjg4")
+
+[node name="Move" type="RigidBody3D" parent="."]
+mass = 0.01
+physics_material_override = SubResource("PhysicsMaterial_y1ecm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Move"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.338501, 0)
+shape = SubResource("SphereShape3D_3mycn")
+
+[node name="HitBox" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_h8p4o")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

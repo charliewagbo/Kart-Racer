@@ -36,6 +36,9 @@ properties/8/sync = true
 properties/9/path = NodePath("Model/Nametag:text")
 properties/9/spawn = true
 properties/9/sync = true
+properties/10/path = NodePath("Model/Mesh:rotation")
+properties/10/spawn = true
+properties/10/sync = true
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_t8w5x"]
 radius = 1.0

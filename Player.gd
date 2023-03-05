@@ -1,5 +1,6 @@
 extends Node3D
 const Banana = preload("res://banana.tscn")
+const Shell = preload("res://shell.tscn")
 @onready var ball = $Ball
 @onready var mesh = $Model
 @onready var model = $Model/Mesh
@@ -109,11 +110,13 @@ func _unhandled_input(event):
 			boost_particles.emitting = true
 			boost_timer.start()
 		if item_sprite.frame == 2:
-			drop_item.rpc()
+			drop_item.rpc('banana')
+		if item_sprite.frame == 3:
+			drop_item.rpc('shell')
 		item_sprite.frame = 0
 
 func get_item():
-	item_sprite.frame = randi() % 2 + 1
+	item_sprite.frame =  randi() % 3 + 1
 
 func get_coin():
 	coins = coins + 1
@@ -137,8 +140,15 @@ func _on_colision_timeout():
 	#ball.freeze = false
 
 @rpc("call_local")
-func drop_item():
-	Banana.instantiate()
-	var banana = Banana.instantiate()
-	banana.set_global_position(mesh.global_position + Vector3(0,0.5,0) + 2 * mesh.global_transform.basis.z)
-	add_sibling(banana)
+func drop_item(type):
+	if type == 'banana':
+		Banana.instantiate()
+		var banana = Banana.instantiate()
+		banana.set_global_position(mesh.global_position + Vector3(0,0.5,0) + 2 * mesh.global_transform.basis.z)
+		add_sibling(banana)
+	if type == 'shell':
+		Shell.instantiate()
+		var shell = Shell.instantiate()
+		shell.set_global_position(mesh.global_position + Vector3(0,0.5,0) - 3 * mesh.global_transform.basis.z)
+		shell.initial_direction = -mesh.global_transform.basis.z
+		add_sibling(shell)
