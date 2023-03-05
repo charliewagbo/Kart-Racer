@@ -25,6 +25,8 @@ const Coin = preload("res://coin.tscn")
 @onready var spring_arm_3d = $Model/SpringArm3D
 @onready var name_entry = $"HUD/Start Menu/MarginContainer/VBoxContainer/Name Entry"
 @onready var start_menu = $"HUD/Start Menu"
+@onready var leaderboard = $HUD/Leaderboard
+@onready var player_list = $HUD/Leaderboard/MarginContainer/VBoxContainer/PlayerList
 #positioning relative to the colision shape
 var sphere_offset = Vector3(0, -1.0,0)
 @export var acceleration = 50
@@ -97,7 +99,7 @@ func _process(delta):
 	var n = ground_ray.get_collision_normal()
 	var xform = align_with_y(mesh.global_transform, n)
 	mesh.global_transform = mesh.global_transform.interpolate_with(xform, 10 * delta)
-	
+
 func align_with_y(xform, new_y):
 	xform.basis.y = new_y
 	xform.basis.x = -xform.basis.z.cross(new_y)
@@ -164,6 +166,15 @@ func _unhandled_input(event):
 			drop_item.rpc('bomb')
 			item_sprite.frame = 0
 			return
+	#Handles Show and Hide Leaderboard
+	if Input.is_action_just_pressed('leaderboard'):
+		var scoreboard = get_parent().find_child('Scoreboard').player_names
+		for player in scoreboard:
+			player_list.add_item(player)
+		leaderboard.visible = true
+	if Input.is_action_just_released('leaderboard'):
+		leaderboard.visible = false
+		player_list.clear()
 
 func get_item():
 	if item_sprite.frame == 0:
@@ -261,10 +272,8 @@ func player_spawn():
 func _on_out_of_bounds_correction_timeout():
 	hit_by_item()
 
-
 func _on_join_correction_timeout():
 	player_spawn()
-
 
 func _on_go_pressed():
 	nametag.text = name_entry.text

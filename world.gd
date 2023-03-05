@@ -2,6 +2,7 @@ extends Node
 
 @onready var main_menu = $"CanvasLayer/Main Menu"
 @onready var address_entry = $"CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Adress Entry"
+@onready var scoreboard = $Scoreboard
 
 const Player = preload("res://player.tscn")
 const PORT = 9421
@@ -30,6 +31,7 @@ func add_player(peer_id):
 	var player = Player.instantiate()
 	player.name = str(peer_id)
 	add_child(player)
+	scoreboard.player_names.append(str(peer_id))
 
 func remove_player(peer_id):
 	var player = get_node_or_null(str(peer_id))

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ihq73o2ey28i"]
+[gd_scene load_steps=11 format=3 uid="uid://ihq73o2ey28i"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_cdxq5"]
 [ext_resource type="PackedScene" uid="uid://djq4eigm2mt74" path="res://maps/battlemap/battlemap.tscn" id="2_cqbw0"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ftlvlwtnm0s8" path="res://world_bound.tscn" id="5_b0lxu"]
 [ext_resource type="PackedScene" uid="uid://ctpsd4pd6xa6w" path="res://spawn_point.tscn" id="5_guye6"]
 [ext_resource type="PackedScene" uid="uid://bvq6fd15bp8lk" path="res://coin.tscn" id="6_bcceh"]
+[ext_resource type="Script" path="res://Scoreboard.gd" id="7_5wxu1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_h6kww"]
 sky_top_color = Color(0.52549, 0.631373, 0.831373, 1)
@@ -141,6 +142,54 @@ transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443
 [node name="Coin3" parent="Map/Coins" instance=ExtResource("6_bcceh")]
 transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, -8.23695, -10.9943, 52.1128)
 
+[node name="Coin5" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 112.282, -4.45931, -0.556967)
+
+[node name="Coin6" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 104.045, -4.45931, 41.15)
+
+[node name="Coin7" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 157.391, -4.45931, -0.556967)
+
+[node name="Coin8" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 156.412, -4.45931, 46.7631)
+
+[node name="Coin9" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 207.976, -4.45931, 96.3736)
+
+[node name="Coin10" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 199.739, -4.45931, 138.081)
+
+[node name="Coin11" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 253.085, -4.45931, 96.3736)
+
+[node name="Coin12" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 252.106, -4.45931, 143.694)
+
+[node name="Coin13" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 20.7626, -4.45931, 96.3736)
+
+[node name="Coin14" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 12.5256, -4.45931, 138.081)
+
+[node name="Coin15" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 65.8713, -4.45931, 96.3736)
+
+[node name="Coin16" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 64.8925, -4.45931, 143.694)
+
+[node name="Coin17" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 123.821, -4.45931, 202.232)
+
+[node name="Coin18" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 115.584, -4.45931, 243.939)
+
+[node name="Coin19" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 168.93, -4.45931, 202.232)
+
+[node name="Coin20" parent="Map/Coins" instance=ExtResource("6_bcceh")]
+transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 167.951, -4.45931, 249.552)
+
 [node name="Coin4" parent="Map/Coins" instance=ExtResource("6_bcceh")]
 transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 16.322, -10.9943, 67.4653)
 
@@ -178,10 +227,21 @@ transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 238.049, -32.1924, 117.029)
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 238.049, -32.1924, 18.6261)
 
 [node name="SpawnPoints" type="Node3D" parent="Map"]
-visible = false
 
 [node name="SpawnPoint" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.527815, -11.9578, 270.683)
+
+[node name="SpawnPoint7" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.527815, -11.9578, 270.683)
+
+[node name="SpawnPoint8" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 274.171, -11.9578, 270.683)
+
+[node name="SpawnPoint9" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 189.15, -11.9578, 270.683)
+
+[node name="SpawnPoint10" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.4686, -11.9578, 270.683)
 
 [node name="SpawnPoint4" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.527815, -11.9578, 175.09)
@@ -197,6 +257,38 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 74.1361, -11.9578, -17.0279)
 
 [node name="SpawnPoint3" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 161.348, -5.33404, 30.0836)
+
+[node name="SpawnPoint11" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.389, -5.33404, 18.5656)
+
+[node name="SpawnPoint12" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.389, -5.33404, 126.79)
+
+[node name="SpawnPoint13" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 157.118, -5.33404, 121.979)
+
+[node name="SpawnPoint14" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 204.443, -5.33404, 121.979)
+
+[node name="SpawnPoint15" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 256.553, -5.33404, 121.979)
+
+[node name="SpawnPoint16" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 162.3, -5.33404, 222.571)
+
+[node name="SpawnPoint17" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 105.949, -5.33404, 222.571)
+
+[node name="SpawnPoint18" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.14923, -5.33404, 128.807)
+
+[node name="SpawnPoint19" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.4587, -5.33404, 128.807)
+
+[node name="Players" type="Node3D" parent="."]
+
+[node name="Scoreboard" type="Node" parent="."]
+script = ExtResource("7_5wxu1")
 
 [connection signal="pressed" from="CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Host Button" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Join Button" to="." method="_on_join_button_pressed"]
