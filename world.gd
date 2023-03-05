@@ -2,7 +2,7 @@ extends Node
 
 @onready var main_menu = $"CanvasLayer/Main Menu"
 @onready var address_entry = $"CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Adress Entry"
-@onready var scoreboard = $Scoreboard
+@onready var scoreboard = $CanvasLayer/Scoreboard
 
 const Player = preload("res://player.tscn")
 const PORT = 9421
@@ -11,6 +11,10 @@ var enet_peer = ENetMultiplayerPeer.new()
 func _unhandled_input(event):
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
+	if Input.is_action_just_pressed("leaderboard"):
+		scoreboard.visible = true
+	if Input.is_action_just_released("leaderboard"):
+		scoreboard.visible = false
 
 func _on_host_button_pressed():
 	main_menu.hide()
@@ -31,7 +35,6 @@ func add_player(peer_id):
 	var player = Player.instantiate()
 	player.name = str(peer_id)
 	add_child(player)
-	scoreboard.player_names.append(str(peer_id))
 
 func remove_player(peer_id):
 	var player = get_node_or_null(str(peer_id))

@@ -426,12 +426,12 @@ draw_pass_1 = SubResource("QuadMesh_78h6k")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.23243, 0)
 billboard = 1
 text = "player"
-font_size = 80
+font_size = 120
 
 [node name="HUD" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -463,38 +463,8 @@ offset = Vector2(10, 10)
 hframes = 3
 vframes = 4
 
-[node name="Leaderboard" type="PanelContainer" parent="HUD"]
-visible = false
-offset_left = 367.0
-offset_top = 227.0
-offset_right = 785.0
-offset_bottom = 421.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="HUD/Leaderboard"]
-layout_mode = 2
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Leaderboard/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 15
-
-[node name="Label" type="Label" parent="HUD/Leaderboard/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Scores"
-horizontal_alignment = 1
-
-[node name="PlayerList" type="ItemList" parent="HUD/Leaderboard/MarginContainer/VBoxContainer"]
-layout_mode = 2
-auto_height = true
-item_count = 1
-item_0/text = "Player"
-
 [node name="Start Menu" type="PanelContainer" parent="HUD"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

@@ -38,7 +38,7 @@ var sphere_offset = Vector3(0, -1.0,0)
 #item type, currently 0 = none boost = 1
 var boosting = false
 @export var boost = 50
-@onready var hud = $HUD
+@onready var hud = $HUD/MarginContainer
 
 #settup input variables
 var speed_input = 0
@@ -55,6 +55,7 @@ func _ready():
 	if not is_multiplayer_authority(): return
 	camera.current = true
 	hud.visible = true
+	start_menu.visible = true
 	nametag.visible = false
 	join_correction.start()
 
@@ -166,15 +167,6 @@ func _unhandled_input(event):
 			drop_item.rpc('bomb')
 			item_sprite.frame = 0
 			return
-	#Handles Show and Hide Leaderboard
-	if Input.is_action_just_pressed('leaderboard'):
-		var scoreboard = get_parent().find_child('Scoreboard').player_names
-		for player in scoreboard:
-			player_list.add_item(player)
-		leaderboard.visible = true
-	if Input.is_action_just_released('leaderboard'):
-		leaderboard.visible = false
-		player_list.clear()
 
 func get_item():
 	if item_sprite.frame == 0:
@@ -183,6 +175,7 @@ func get_item():
 func get_coin():
 	coins = coins + 1
 	coins_display.text = str(coins)
+	_update_coins()
 	
 
 func hit_by_item():
@@ -196,14 +189,17 @@ func hit_by_item():
 		drop_coin.rpc(1)
 		coins = coins - 1
 		coins_display.text = str(coins)
+		_update_coins()
 	if coins == 2:
 		drop_coin.rpc(2)
 		coins = coins - 2
 		coins_display.text = str(coins)
+		_update_coins()
 	if coins > 2:
 		drop_coin.rpc(3)
 		coins = coins - 3
 		coins_display.text = str(coins)
+		_update_coins()
 
 func _on_boost_timeout():
 	boost_current = 0
@@ -277,6 +273,23 @@ func _on_join_correction_timeout():
 
 func _on_go_pressed():
 	nametag.text = name_entry.text
+	if name == '1': add_name(name_entry.text)
+	add_name.rpc_id(1,name_entry.text)
 	start_menu.visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	in_menu = false
+
+@rpc
+func add_name(name):
+	var scoreboard = get_parent().find_child('CanvasLayer').find_child('Scoreboard')
+	scoreboard.player_names[name] = 0
+
+func _update_coins():
+	nametag.text
+	if name == '1': add_coin(nametag.text,coins)
+	add_coin.rpc_id(1,name_entry.text,coins)
+
+@rpc
+func add_coin(name,coins):
+	var scoreboard = get_parent().find_child('CanvasLayer').find_child('Scoreboard')
+	scoreboard.player_names[name] = coins

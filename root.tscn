@@ -1,12 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://ihq73o2ey28i"]
+[gd_scene load_steps=12 format=3 uid="uid://ihq73o2ey28i"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_cdxq5"]
 [ext_resource type="PackedScene" uid="uid://djq4eigm2mt74" path="res://maps/battlemap/battlemap.tscn" id="2_cqbw0"]
+[ext_resource type="Script" path="res://Scoreboard.gd" id="2_gw1ik"]
 [ext_resource type="PackedScene" uid="uid://c4opmrgwbd1kk" path="res://item_box.tscn" id="4_7fpbg"]
 [ext_resource type="PackedScene" uid="uid://ftlvlwtnm0s8" path="res://world_bound.tscn" id="5_b0lxu"]
 [ext_resource type="PackedScene" uid="uid://ctpsd4pd6xa6w" path="res://spawn_point.tscn" id="5_guye6"]
 [ext_resource type="PackedScene" uid="uid://bvq6fd15bp8lk" path="res://coin.tscn" id="6_bcceh"]
-[ext_resource type="Script" path="res://Scoreboard.gd" id="7_5wxu1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_h6kww"]
 sky_top_color = Color(0.52549, 0.631373, 0.831373, 1)
@@ -26,6 +26,14 @@ sdfgi_enabled = true
 sdfgi_energy = 2.0
 glow_enabled = true
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_atl2d"]
+properties/0/path = NodePath("CanvasLayer/Scoreboard/MarginContainer/VBoxContainer/PlayersScores:text")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath("CanvasLayer/Scoreboard:script")
+properties/1/spawn = true
+properties/1/sync = true
+
 [node name="World" type="Node"]
 script = ExtResource("1_cdxq5")
 
@@ -37,6 +45,37 @@ shadow_enabled = true
 environment = SubResource("Environment_mefvr")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Scoreboard" type="PanelContainer" parent="CanvasLayer"]
+visible = false
+offset_left = 367.0
+offset_top = 227.0
+offset_right = 785.0
+offset_bottom = 421.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_gw1ik")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Scoreboard"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scoreboard/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="CanvasLayer/Scoreboard/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Scores"
+horizontal_alignment = 1
+
+[node name="PlayersScores" type="RichTextLabel" parent="CanvasLayer/Scoreboard/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Players"
+fit_content = true
 
 [node name="Main Menu" type="PanelContainer" parent="CanvasLayer"]
 anchors_preset = 15
@@ -287,8 +326,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.4587, -5.33404, 128.807)
 
 [node name="Players" type="Node3D" parent="."]
 
-[node name="Scoreboard" type="Node" parent="."]
-script = ExtResource("7_5wxu1")
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_atl2d")
 
 [connection signal="pressed" from="CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Host Button" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Join Button" to="." method="_on_join_button_pressed"]
