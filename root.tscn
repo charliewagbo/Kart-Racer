@@ -64,11 +64,6 @@ layout_mode = 2
 text = "Main Menu"
 horizontal_alignment = 1
 
-[node name="Name Entry" type="LineEdit" parent="CanvasLayer/Main Menu/MarginContainer/VBoxContainer"]
-layout_mode = 2
-placeholder_text = "Enter Your Name"
-alignment = 1
-
 [node name="Host Button" type="Button" parent="CanvasLayer/Main Menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Host"
@@ -183,6 +178,7 @@ transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 238.049, -32.1924, 117.029)
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 238.049, -32.1924, 18.6261)
 
 [node name="SpawnPoints" type="Node3D" parent="Map"]
+visible = false
 
 [node name="SpawnPoint" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.527815, -11.9578, 270.683)

@@ -463,6 +463,42 @@ offset = Vector2(10, 10)
 hframes = 3
 vframes = 4
 
+[node name="Start Menu" type="PanelContainer" parent="HUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 367.0
+offset_top = 227.0
+offset_right = -367.0
+offset_bottom = -227.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/Start Menu"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Start Menu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="HUD/Start Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Welcome"
+horizontal_alignment = 1
+
+[node name="Name Entry" type="LineEdit" parent="HUD/Start Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter Your Name"
+alignment = 1
+
+[node name="Go" type="Button" parent="HUD/Start Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Go"
+
 [node name="Boost" type="Timer" parent="."]
 wait_time = 2.0
 
@@ -476,6 +512,7 @@ one_shot = true
 
 [node name="Colision" type="Timer" parent="."]
 
+[connection signal="pressed" from="HUD/Start Menu/MarginContainer/VBoxContainer/Go" to="." method="_on_go_pressed"]
 [connection signal="timeout" from="Boost" to="." method="_on_boost_timeout"]
 [connection signal="timeout" from="JoinCorrection" to="." method="_on_join_correction_timeout"]
 [connection signal="timeout" from="OutOfBoundsCorrection" to="." method="_on_out_of_bounds_correction_timeout"]

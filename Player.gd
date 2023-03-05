@@ -23,6 +23,8 @@ const Coin = preload("res://coin.tscn")
 @onready var nametag = $Model/Nametag
 @onready var coins_display = $HUD/MarginContainer/Coins
 @onready var spring_arm_3d = $Model/SpringArm3D
+@onready var name_entry = $"HUD/Start Menu/MarginContainer/VBoxContainer/Name Entry"
+@onready var start_menu = $"HUD/Start Menu"
 #positioning relative to the colision shape
 var sphere_offset = Vector3(0, -1.0,0)
 @export var acceleration = 50
@@ -42,25 +44,23 @@ var rotate_input = 0
 var boost_current = 0
 var coins = 0
 var frozen = false
+var in_menu = true
 
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
 
 func _ready():
 	if not is_multiplayer_authority(): return
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	camera.current = true
 	hud.visible = true
+	nametag.visible = false
 	join_correction.start()
-
-func set_player_name(name):
-	nametag.text = name
 
 func _physics_process(delta):
 	if not is_multiplayer_authority(): return
 	mesh.transform.origin = ball.transform.origin + sphere_offset
 	# Calc Acceleration
-	if not frozen:
+	if not frozen and not in_menu:
 		ball.apply_central_force(-mesh.global_transform.basis.z * (speed_input + boost_current))
 
 func _process(delta):
@@ -81,7 +81,7 @@ func _process(delta):
 	wheel_front_left.rotation.y = rotate_input
 	if frozen:
 		model.rotate_y(0.5)
-	if ball.linear_velocity.length() > turn_stop_limit and not frozen:
+	if ball.linear_velocity.length() > turn_stop_limit and not frozen and not in_menu:
 		var new_basis = mesh.global_transform.basis.rotated(mesh.global_transform.basis.y, rotate_input)
 		mesh.global_transform.basis = mesh.global_transform.basis.slerp(new_basis, turn_speed * delta)
 		
@@ -264,3 +264,10 @@ func _on_out_of_bounds_correction_timeout():
 
 func _on_join_correction_timeout():
 	player_spawn()
+
+
+func _on_go_pressed():
+	nametag.text = name_entry.text
+	start_menu.visible = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	in_menu = false
