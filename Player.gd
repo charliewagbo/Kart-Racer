@@ -2,6 +2,7 @@ extends Node3D
 const Banana = preload("res://banana.tscn")
 const Shell = preload("res://shell.tscn")
 const Bomb = preload("res://bomb.tscn")
+const Coin = preload("res://coin.tscn")
 @onready var ball = $Ball
 @onready var mesh = $Model
 @onready var model = $Model/Mesh
@@ -17,7 +18,8 @@ const Bomb = preload("res://bomb.tscn")
 @onready var smoke_left = $Model/Mesh/Particles/LeftTyre
 @onready var boost_particles = $Model/Mesh/Particles/Boost
 @onready var colision_timer = $Colision
-@onready var sync = $sync
+@onready var out_of_bounds_correction = $OutOfBoundsCorrection
+@onready var join_correction = $JoinCorrection
 @onready var nametag = $Model/Nametag
 @onready var coins_display = $HUD/MarginContainer/Coins
 @onready var spring_arm_3d = $Model/SpringArm3D
@@ -49,6 +51,7 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	camera.current = true
 	hud.visible = true
+	join_correction.start()
 
 func set_player_name(name):
 	nametag.text = name
@@ -176,6 +179,20 @@ func hit_by_item():
 	#ball.freeze = true
 	ball.linear_velocity = Vector3(0,0,0)
 	colision_timer.start()
+	if coins == 0:
+		return
+	if coins == 1:
+		drop_coin.rpc(1)
+		coins = coins - 1
+		coins_display.text = str(coins)
+	if coins == 2:
+		drop_coin.rpc(2)
+		coins = coins - 2
+		coins_display.text = str(coins)
+	if coins > 2:
+		drop_coin.rpc(3)
+		coins = coins - 3
+		coins_display.text = str(coins)
 
 func _on_boost_timeout():
 	boost_current = 0
@@ -206,3 +223,44 @@ func drop_item(type):
 		bomb.set_global_position(mesh.global_position + Vector3(0,1,0) - 3 * mesh.global_transform.basis.z)
 		bomb.initial_direction = -mesh.global_transform.basis.z
 		add_sibling(bomb)
+
+@rpc("call_local")
+func drop_coin(number):
+	Coin.instantiate()
+	var coin = Coin.instantiate()
+	coin.set_global_position(mesh.global_position + Vector3(0,1,0) + 4 * mesh.global_transform.basis.z)
+	coin.rotation = Vector3(90,0,90)
+	coin.onetime = true
+	add_sibling(coin)
+	if number > 1:
+		var coin2 = Coin.instantiate()
+		coin2.set_global_position(mesh.global_position + Vector3(0,1,0) + 4 * mesh.global_transform.basis.z.rotated(Vector3(0,1,0),2.09))
+		coin2.rotation = Vector3(90,0,90)
+		coin2.onetime = true
+		add_sibling(coin2)
+	if number > 2:
+		var coin3 = Coin.instantiate()
+		coin3.set_global_position(mesh.global_position + Vector3(0,1,0) + 4 * mesh.global_transform.basis.z.rotated(Vector3(0,1,0),-2.09))
+		coin3.rotation = Vector3(90,0,90)
+		coin3.onetime = true
+		add_sibling(coin3)
+
+func out_of_bounds():
+	player_spawn()
+	out_of_bounds_correction.start()
+
+func player_spawn():
+	var spawn_points = get_parent().find_child('SpawnPoints').get_children()
+	var nearest_spawn_point = spawn_points[0]
+	for spawn_point in spawn_points:
+		if spawn_point.active:
+			if spawn_point.global_position.distance_to(ball.global_position) < nearest_spawn_point.global_position.distance_to(ball.global_position):
+				nearest_spawn_point = spawn_point
+	ball.global_position = nearest_spawn_point.global_position
+
+func _on_out_of_bounds_correction_timeout():
+	hit_by_item()
+
+
+func _on_join_correction_timeout():
+	player_spawn()

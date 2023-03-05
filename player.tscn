@@ -466,7 +466,17 @@ vframes = 4
 [node name="Boost" type="Timer" parent="."]
 wait_time = 2.0
 
+[node name="JoinCorrection" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="OutOfBoundsCorrection" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
 [node name="Colision" type="Timer" parent="."]
 
 [connection signal="timeout" from="Boost" to="." method="_on_boost_timeout"]
+[connection signal="timeout" from="JoinCorrection" to="." method="_on_join_correction_timeout"]
+[connection signal="timeout" from="OutOfBoundsCorrection" to="." method="_on_out_of_bounds_correction_timeout"]
 [connection signal="timeout" from="Colision" to="." method="_on_colision_timeout"]

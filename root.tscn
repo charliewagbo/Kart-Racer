@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://ihq73o2ey28i"]
+[gd_scene load_steps=10 format=3 uid="uid://ihq73o2ey28i"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_cdxq5"]
 [ext_resource type="PackedScene" uid="uid://djq4eigm2mt74" path="res://maps/battlemap/battlemap.tscn" id="2_cqbw0"]
 [ext_resource type="PackedScene" uid="uid://c4opmrgwbd1kk" path="res://item_box.tscn" id="4_7fpbg"]
+[ext_resource type="PackedScene" uid="uid://ftlvlwtnm0s8" path="res://world_bound.tscn" id="5_b0lxu"]
+[ext_resource type="PackedScene" uid="uid://ctpsd4pd6xa6w" path="res://spawn_point.tscn" id="5_guye6"]
 [ext_resource type="PackedScene" uid="uid://bvq6fd15bp8lk" path="res://coin.tscn" id="6_bcceh"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_h6kww"]
@@ -84,67 +86,121 @@ alignment = 1
 _spawnable_scenes = PackedStringArray("res://player.tscn")
 spawn_path = NodePath("..")
 
-[node name="Map" parent="." instance=ExtResource("2_cqbw0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 133.133, -61.6208, 123.582)
+[node name="Map" type="Node3D" parent="."]
 
-[node name="Items" type="Node3D" parent="."]
+[node name="Items" type="Node3D" parent="Map"]
 
-[node name="Item" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.0565, -4.49156)
 
-[node name="Item2" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item2" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.2897, -11.0565, 16.215)
 
-[node name="Item3" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item3" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.2897, -11.0565, 66.9043)
 
-[node name="Item4" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item4" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0485, -11.0565, 66.9043)
 
-[node name="Item5" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item5" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.0565, 174.176)
 
-[node name="Item9" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item9" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.4722, -4.02757, 152.981)
 
-[node name="Item10" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item10" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.6412, -4.02757, 152.981)
 
-[node name="Item11" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item11" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.6412, -4.02757, 101.073)
 
-[node name="Item12" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item12" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110.117, -4.02757, 122.646)
 
-[node name="Item13" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item13" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 135.96, -4.02757, 147.285)
 
-[node name="Item14" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item14" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 158.505, -4.02757, 127.151)
 
-[node name="Item15" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item15" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 158.505, -4.02757, 105.136)
 
-[node name="Item6" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item6" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.2897, -11.0565, 194.883)
 
-[node name="Item7" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item7" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.2897, -11.0565, 245.572)
 
-[node name="Item8" parent="Items" instance=ExtResource("4_7fpbg")]
+[node name="Item8" parent="Map/Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0485, -11.0565, 245.572)
 
-[node name="Coin" parent="Items" instance=ExtResource("6_bcceh")]
+[node name="Mesh" parent="Map" instance=ExtResource("2_cqbw0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 133.133, -61.6208, 123.582)
+
+[node name="Coins" type="Node3D" parent="Map"]
+
+[node name="Coin" parent="Map/Coins" instance=ExtResource("6_bcceh")]
 transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 0, -10.9943, 10.4058)
 
-[node name="Coin3" parent="Items" instance=ExtResource("6_bcceh")]
+[node name="Coin3" parent="Map/Coins" instance=ExtResource("6_bcceh")]
 transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, -8.23695, -10.9943, 52.1128)
 
-[node name="Coin4" parent="Items" instance=ExtResource("6_bcceh")]
+[node name="Coin4" parent="Map/Coins" instance=ExtResource("6_bcceh")]
 transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 16.322, -10.9943, 67.4653)
 
-[node name="Coin2" parent="Items" instance=ExtResource("6_bcceh")]
+[node name="Coin2" parent="Map/Coins" instance=ExtResource("6_bcceh")]
 transform = Transform3D(1, 0, 0, 0, 0.0228443, -0.999739, 0, 0.999739, 0.0228443, 0, -10.9943, 18.2534)
+
+[node name="Bounds" type="Node3D" parent="Map"]
+visible = false
+
+[node name="WorldBound" parent="Map/Bounds" instance=ExtResource("5_b0lxu")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 25.5328, -32.1924, 19.4105)
+
+[node name="WorldBound2" parent="Map/Bounds" instance=ExtResource("5_b0lxu")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 25.5328, -32.1924, 123.257)
+
+[node name="WorldBound3" parent="Map/Bounds" instance=ExtResource("5_b0lxu")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 127.595, -32.1924, 123.257)
+
+[node name="WorldBound4" parent="Map/Bounds" instance=ExtResource("5_b0lxu")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 127.595, -32.1924, 15.6005)
+
+[node name="WorldBound5" parent="Map/Bounds" instance=ExtResource("5_b0lxu")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 127.595, -32.1924, 229.767)
+
+[node name="WorldBound6" parent="Map/Bounds" instance=ExtResource("5_b0lxu")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 24.0461, -32.1924, 229.767)
+
+[node name="WorldBound7" parent="Map/Bounds" instance=ExtResource("5_b0lxu")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 238.049, -32.1924, 229.767)
+
+[node name="WorldBound8" parent="Map/Bounds" instance=ExtResource("5_b0lxu")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 238.049, -32.1924, 117.029)
+
+[node name="WorldBound9" parent="Map/Bounds" instance=ExtResource("5_b0lxu")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 238.049, -32.1924, 18.6261)
+
+[node name="SpawnPoints" type="Node3D" parent="Map"]
+
+[node name="SpawnPoint" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.527815, -11.9578, 270.683)
+
+[node name="SpawnPoint4" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.527815, -11.9578, 175.09)
+
+[node name="SpawnPoint5" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 92.7453, -11.9578, 175.09)
+
+[node name="SpawnPoint6" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 191.143, -11.9578, 175.09)
+
+[node name="SpawnPoint2" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 74.1361, -11.9578, -17.0279)
+
+[node name="SpawnPoint3" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 161.348, -5.33404, 30.0836)
 
 [connection signal="pressed" from="CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Host Button" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Join Button" to="." method="_on_join_button_pressed"]
