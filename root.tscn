@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://ihq73o2ey28i"]
+[gd_scene load_steps=8 format=3 uid="uid://ihq73o2ey28i"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_cdxq5"]
 [ext_resource type="PackedScene" uid="uid://djq4eigm2mt74" path="res://maps/battlemap/battlemap.tscn" id="2_cqbw0"]
-[ext_resource type="PackedScene" uid="uid://dbmgtpwqhs5yx" path="res://banana.tscn" id="3_qhl0q"]
 [ext_resource type="PackedScene" uid="uid://c4opmrgwbd1kk" path="res://item_box.tscn" id="4_7fpbg"]
 [ext_resource type="PackedScene" uid="uid://bvq6fd15bp8lk" path="res://coin.tscn" id="6_bcceh"]
 
@@ -89,15 +88,6 @@ spawn_path = NodePath("..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 133.133, -61.6208, 123.582)
 
 [node name="Items" type="Node3D" parent="."]
-
-[node name="Banana" parent="Items" instance=ExtResource("3_qhl0q")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.0722, -11.6025, 17.8417)
-
-[node name="Banana2" parent="Items" instance=ExtResource("3_qhl0q")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.0722, -11.6025, 66.6142)
-
-[node name="Banana3" parent="Items" instance=ExtResource("3_qhl0q")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.0722, -4.83321, 100.217)
 
 [node name="Item" parent="Items" instance=ExtResource("4_7fpbg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.0565, -4.49156)

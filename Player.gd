@@ -5,7 +5,7 @@ const Shell = preload("res://shell.tscn")
 @onready var mesh = $Model
 @onready var model = $Model/Mesh
 @onready var ground_ray = $Model/RayCast3D
-@onready var camera = $Model/Camera3D
+@onready var camera = $Model/SpringArm3D/Camera3D
 @onready var wheel_front_left = $Model/Mesh/wheel_frontLeft
 @onready var wheel_front_right = $Model/Mesh/wheel_frontRight
 @onready var body = $Model/Mesh/body
@@ -19,7 +19,7 @@ const Shell = preload("res://shell.tscn")
 @onready var sync = $sync
 @onready var nametag = $Model/Nametag
 @onready var coins_display = $HUD/MarginContainer/Coins
-
+@onready var spring_arm_3d = $Model/SpringArm3D
 #positioning relative to the colision shape
 var sphere_offset = Vector3(0, -1.0,0)
 @export var acceleration = 50
