@@ -1,6 +1,7 @@
 extends Node3D
 const Banana = preload("res://banana.tscn")
 const Shell = preload("res://shell.tscn")
+const Bomb = preload("res://bomb.tscn")
 @onready var ball = $Ball
 @onready var mesh = $Model
 @onready var model = $Model/Mesh
@@ -103,20 +104,67 @@ func align_with_y(xform, new_y):
 func _unhandled_input(event):
 	if not is_multiplayer_authority(): return
 	if Input.is_action_just_pressed("reset"):
-		print('reset')
+		print('you need to make reset work pal')
+	#Long ass code to handle using items, some duplication
 	if Input.is_action_just_pressed("use_item"):
+		
+		#Handle boost items
 		if item_sprite.frame == 1:
 			boost_current = boost
 			boost_particles.emitting = true
 			boost_timer.start()
+			item_sprite.frame = 0
+			return
+		if item_sprite.frame == 4:
+			boost_current = boost
+			boost_particles.emitting = true
+			boost_timer.start()
+			item_sprite.frame = 9
+			return
+		if item_sprite.frame == 9:
+			boost_current = boost
+			boost_particles.emitting = true
+			boost_timer.start()
+			item_sprite.frame = 1
+			return
+		
+		#Handle Banana Items
 		if item_sprite.frame == 2:
 			drop_item.rpc('banana')
+			item_sprite.frame = 0
+			return
+		if item_sprite.frame == 6:
+			drop_item.rpc('banana')
+			item_sprite.frame = 10
+			return
+		if item_sprite.frame == 10:
+			drop_item.rpc('banana')
+			item_sprite.frame = 2
+			return
+		
+		#Handle Shell Items
 		if item_sprite.frame == 3:
 			drop_item.rpc('shell')
-		item_sprite.frame = 0
+			item_sprite.frame = 0
+			return
+		if item_sprite.frame == 5:
+			drop_item.rpc('shell')
+			item_sprite.frame = 11
+			return
+		if item_sprite.frame == 11:
+			drop_item.rpc('shell')
+			item_sprite.frame = 3
+			return
+		
+		#Handle bomb
+		if item_sprite.frame == 7:
+			drop_item.rpc('bomb')
+			item_sprite.frame = 0
+			return
 
 func get_item():
-	item_sprite.frame =  randi() % 3 + 1
+	if item_sprite.frame == 0:
+		item_sprite.frame =  randi() % 7 + 1
 
 func get_coin():
 	coins = coins + 1
@@ -152,3 +200,9 @@ func drop_item(type):
 		shell.set_global_position(mesh.global_position + Vector3(0,0.5,0) - 3 * mesh.global_transform.basis.z)
 		shell.initial_direction = -mesh.global_transform.basis.z
 		add_sibling(shell)
+	if type == 'bomb':
+		Bomb.instantiate()
+		var bomb = Bomb.instantiate()
+		bomb.set_global_position(mesh.global_position + Vector3(0,1,0) - 3 * mesh.global_transform.basis.z)
+		bomb.initial_direction = -mesh.global_transform.basis.z
+		add_sibling(bomb)

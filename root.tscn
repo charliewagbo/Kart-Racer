@@ -84,7 +84,7 @@ alignment = 1
 _spawnable_scenes = PackedStringArray("res://player.tscn")
 spawn_path = NodePath("..")
 
-[node name="Node3D" parent="." instance=ExtResource("2_cqbw0")]
+[node name="Map" parent="." instance=ExtResource("2_cqbw0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 133.133, -61.6208, 123.582)
 
 [node name="Items" type="Node3D" parent="."]

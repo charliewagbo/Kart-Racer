@@ -7,7 +7,7 @@ extends Area3D
 var initial_direction = Vector3(0,0,1)
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	move.linear_velocity = initial_direction * 30.0
+	move.linear_velocity = initial_direction * 45.0
 
 func _on_body_entered(body):
 	if body.name == 'Ball':

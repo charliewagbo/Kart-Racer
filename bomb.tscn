@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://7ysqi1avqihd"]
+
+[ext_resource type="Script" path="res://bomb.gd" id="1_508bq"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g0nse"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_g1445"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7r4x8"]
+albedo_color = Color(0.176471, 0.176471, 0.176471, 1)
+
+[node name="Bomb" type="RigidBody3D"]
+gravity_scale = 5.0
+max_contacts_reported = 1
+contact_monitor = true
+script = ExtResource("1_508bq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_g0nse")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_g1445")
+surface_material_override/0 = SubResource("StandardMaterial3D_7r4x8")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]

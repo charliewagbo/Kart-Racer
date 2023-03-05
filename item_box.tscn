@@ -48,8 +48,12 @@ trail_lifetime = 0.55
 process_material = SubResource("ParticleProcessMaterial_6j1hm")
 draw_pass_1 = SubResource("QuadMesh_rbpbh")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="BurstTimer" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="RespawnTimer" type="Timer" parent="."]
+wait_time = 5.0
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="BurstTimer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
