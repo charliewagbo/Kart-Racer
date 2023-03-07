@@ -1,10 +1,12 @@
-[gd_scene load_steps=26 format=3 uid="uid://cwp5t38iydxlj"]
+[gd_scene load_steps=28 format=3 uid="uid://cwp5t38iydxlj"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_hgkex"]
 [ext_resource type="Texture2D" uid="uid://ce2ve1b3msjr2" path="res://addons/kenney_particle_pack/smoke_04.png" id="2_i1ogb"]
 [ext_resource type="Material" uid="uid://cvfi4rndu40bw" path="res://boost particle.tres" id="3_egyrd"]
 [ext_resource type="Texture2D" uid="uid://cbys4vog67gnd" path="res://sprites/items.png" id="3_ub00w"]
 [ext_resource type="PackedScene" uid="uid://b7iitk7l5ud2a" path="res://detail_crystal.glb" id="5_gvpvu"]
+[ext_resource type="Texture2D" uid="uid://i2enu8aecww4" path="res://sprites/unready.png" id="6_3krnl"]
+[ext_resource type="Texture2D" uid="uid://bhjviqg8481vc" path="res://sprites/ready.png" id="7_exo3r"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_50j1u"]
 properties/0/path = NodePath("Ball:position")
@@ -547,6 +549,47 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "Players"
 fit_content = true
+
+[node name="ReadyMenu" type="PanelContainer" parent="HUD"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 367.0
+offset_top = 227.0
+offset_right = -367.0
+offset_bottom = -227.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/ReadyMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/ReadyMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="HUD/ReadyMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Waiting..."
+horizontal_alignment = 1
+
+[node name="ItemList" type="ItemList" parent="HUD/ReadyMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+auto_height = true
+item_count = 2
+item_0/text = "New Player"
+item_0/icon = ExtResource("6_3krnl")
+item_1/text = "Player 2"
+item_1/icon = ExtResource("7_exo3r")
+
+[node name="Ready" type="Button" parent="HUD/ReadyMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Ready"
 
 [node name="Boost" type="Timer" parent="."]
 wait_time = 2.0
