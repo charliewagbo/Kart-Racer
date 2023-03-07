@@ -72,10 +72,11 @@ layout_mode = 2
 text = "Scores"
 horizontal_alignment = 1
 
-[node name="PlayersScores" type="RichTextLabel" parent="CanvasLayer/Scoreboard/MarginContainer/VBoxContainer"]
+[node name="ItemList" type="ItemList" parent="CanvasLayer/Scoreboard/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Players"
-fit_content = true
+auto_height = true
+item_count = 1
+item_0/text = "Jeff"
 
 [node name="Main Menu" type="PanelContainer" parent="CanvasLayer"]
 anchors_preset = 15
@@ -119,7 +120,7 @@ alignment = 1
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://player.tscn")
-spawn_path = NodePath("..")
+spawn_path = NodePath("../Players")
 
 [node name="Map" type="Node3D" parent="."]
 
@@ -267,9 +268,6 @@ transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 238.049, -32.1924, 18.6261)
 
 [node name="SpawnPoints" type="Node3D" parent="Map"]
 
-[node name="SpawnPoint" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.527815, -11.9578, 270.683)
-
 [node name="SpawnPoint7" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.527815, -11.9578, 270.683)
 
@@ -293,6 +291,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 191.143, -11.9578, 175.09)
 
 [node name="SpawnPoint2" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 74.1361, -11.9578, -17.0279)
+
+[node name="SpawnPoint1" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 74.1361, 495.984, 172.777)
 
 [node name="SpawnPoint3" parent="Map/SpawnPoints" instance=ExtResource("5_guye6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 161.348, -5.33404, 30.0836)
@@ -329,5 +330,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.4587, -5.33404, 128.807)
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_atl2d")
 
+[connection signal="visibility_changed" from="CanvasLayer/Scoreboard" to="CanvasLayer/Scoreboard" method="_on_visibility_changed"]
 [connection signal="pressed" from="CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Host Button" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Join Button" to="." method="_on_join_button_pressed"]

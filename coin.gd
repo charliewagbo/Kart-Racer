@@ -24,7 +24,9 @@ func _on_body_entered(body):
 		mesh.visible = false
 		burst_timer.start()
 		respawn_timer.start()
-		body.get_parent().get_coin()
+		var player = body.get_parent()
+		print(player.name)
+		player.get_coin()
 		active = false
 
 func _on_timer_timeout():

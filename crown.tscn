@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://pioaerejvt7b"]
+
+[ext_resource type="PackedScene" uid="uid://b7iitk7l5ud2a" path="res://detail_crystal.glb" id="1_s18rn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j0cow"]
+
+[node name="Crown" type="Area3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_j0cow")
+
+[node name="detail_crystal" parent="." instance=ExtResource("1_s18rn")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)

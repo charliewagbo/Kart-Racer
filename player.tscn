@@ -1,9 +1,10 @@
-[gd_scene load_steps=25 format=3 uid="uid://cwp5t38iydxlj"]
+[gd_scene load_steps=26 format=3 uid="uid://cwp5t38iydxlj"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_hgkex"]
 [ext_resource type="Texture2D" uid="uid://ce2ve1b3msjr2" path="res://addons/kenney_particle_pack/smoke_04.png" id="2_i1ogb"]
 [ext_resource type="Material" uid="uid://cvfi4rndu40bw" path="res://boost particle.tres" id="3_egyrd"]
 [ext_resource type="Texture2D" uid="uid://cbys4vog67gnd" path="res://sprites/items.png" id="3_ub00w"]
+[ext_resource type="PackedScene" uid="uid://b7iitk7l5ud2a" path="res://detail_crystal.glb" id="5_gvpvu"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_50j1u"]
 properties/0/path = NodePath("Ball:position")
@@ -39,6 +40,15 @@ properties/9/sync = true
 properties/10/path = NodePath("Model/Mesh:rotation")
 properties/10/spawn = true
 properties/10/sync = true
+properties/11/path = NodePath(".:coins")
+properties/11/spawn = true
+properties/11/sync = true
+properties/12/path = NodePath(".:user_name")
+properties/12/spawn = true
+properties/12/sync = true
+properties/13/path = NodePath("Model/Mesh/Crown:visible")
+properties/13/spawn = true
+properties/13/sync = true
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_t8w5x"]
 radius = 1.0
@@ -368,6 +378,10 @@ margin = 2.0
 
 [node name="Mesh" type="Node3D" parent="Model"]
 
+[node name="Crown" parent="Model/Mesh" instance=ExtResource("5_gvpvu")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 1.79746, 0)
+visible = false
+
 [node name="body" type="MeshInstance3D" parent="Model/Mesh"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -0.1)
 mesh = SubResource("ArrayMesh_pqdvq")
@@ -423,10 +437,14 @@ process_material = SubResource("ParticleProcessMaterial_hdcqb")
 draw_pass_1 = SubResource("QuadMesh_78h6k")
 
 [node name="Nametag" type="Label3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.23243, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.23243, 0.337479)
+visibility_range_end = 60.0
+pixel_size = 0.0007
 billboard = 1
+fixed_size = true
 text = "player"
 font_size = 120
+vertical_alignment = 2
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -500,11 +518,41 @@ alignment = 1
 layout_mode = 2
 text = "Go"
 
+[node name="Scoreboard" type="PanelContainer" parent="HUD"]
+visible = false
+offset_left = 367.0
+offset_top = 227.0
+offset_right = 785.0
+offset_bottom = 421.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/Scoreboard"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Scoreboard/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="HUD/Scoreboard/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Scores"
+horizontal_alignment = 1
+
+[node name="PlayersScores" type="RichTextLabel" parent="HUD/Scoreboard/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Players"
+fit_content = true
+
 [node name="Boost" type="Timer" parent="."]
 wait_time = 2.0
 
 [node name="JoinCorrection" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.2
 one_shot = true
 
 [node name="OutOfBoundsCorrection" type="Timer" parent="."]

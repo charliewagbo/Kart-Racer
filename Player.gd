@@ -25,8 +25,7 @@ const Coin = preload("res://coin.tscn")
 @onready var spring_arm_3d = $Model/SpringArm3D
 @onready var name_entry = $"HUD/Start Menu/MarginContainer/VBoxContainer/Name Entry"
 @onready var start_menu = $"HUD/Start Menu"
-@onready var leaderboard = $HUD/Leaderboard
-@onready var player_list = $HUD/Leaderboard/MarginContainer/VBoxContainer/PlayerList
+@onready var crown = $Model/Mesh/Crown
 #positioning relative to the colision shape
 var sphere_offset = Vector3(0, -1.0,0)
 @export var acceleration = 50
@@ -44,7 +43,8 @@ var boosting = false
 var speed_input = 0
 var rotate_input = 0
 var boost_current = 0
-var coins = 0
+@export var coins = 0
+@export var user_name = 'New Player'
 var frozen = false
 var in_menu = true
 
@@ -68,6 +68,7 @@ func _physics_process(delta):
 
 func _process(delta):
 	if not is_multiplayer_authority(): return
+	_check_winning()
 	if not ground_ray.is_colliding():
 		return
 	speed_input = 0
@@ -175,7 +176,6 @@ func get_item():
 func get_coin():
 	coins = coins + 1
 	coins_display.text = str(coins)
-	_update_coins()
 	
 
 func hit_by_item():
@@ -189,17 +189,14 @@ func hit_by_item():
 		drop_coin.rpc(1)
 		coins = coins - 1
 		coins_display.text = str(coins)
-		_update_coins()
 	if coins == 2:
 		drop_coin.rpc(2)
 		coins = coins - 2
 		coins_display.text = str(coins)
-		_update_coins()
 	if coins > 2:
 		drop_coin.rpc(3)
 		coins = coins - 3
 		coins_display.text = str(coins)
-		_update_coins()
 
 func _on_boost_timeout():
 	boost_current = 0
@@ -213,51 +210,53 @@ func _on_colision_timeout():
 
 @rpc("call_local")
 func drop_item(type):
+	var items = get_parent()
 	if type == 'banana':
 		Banana.instantiate()
 		var banana = Banana.instantiate()
 		banana.set_global_position(mesh.global_position + Vector3(0,0.5,0) + 2 * mesh.global_transform.basis.z)
-		add_sibling(banana)
+		items.add_sibling(banana)
 	if type == 'shell':
 		Shell.instantiate()
 		var shell = Shell.instantiate()
 		shell.set_global_position(mesh.global_position + Vector3(0,0.5,0) - 3 * mesh.global_transform.basis.z)
 		shell.initial_direction = -mesh.global_transform.basis.z
-		add_sibling(shell)
+		items.add_sibling(shell)
 	if type == 'bomb':
 		Bomb.instantiate()
 		var bomb = Bomb.instantiate()
 		bomb.set_global_position(mesh.global_position + Vector3(0,1,0) - 3 * mesh.global_transform.basis.z)
 		bomb.initial_direction = -mesh.global_transform.basis.z
-		add_sibling(bomb)
+		items.add_sibling(bomb)
 
 @rpc("call_local")
 func drop_coin(number):
+	var items = get_parent()
 	Coin.instantiate()
 	var coin = Coin.instantiate()
 	coin.set_global_position(mesh.global_position + Vector3(0,1,0) + 4 * mesh.global_transform.basis.z)
 	coin.rotation = Vector3(90,0,90)
 	coin.onetime = true
-	add_sibling(coin)
+	items.add_sibling(coin)
 	if number > 1:
 		var coin2 = Coin.instantiate()
 		coin2.set_global_position(mesh.global_position + Vector3(0,1,0) + 4 * mesh.global_transform.basis.z.rotated(Vector3(0,1,0),2.09))
 		coin2.rotation = Vector3(90,0,90)
 		coin2.onetime = true
-		add_sibling(coin2)
+		items.add_sibling(coin2)
 	if number > 2:
 		var coin3 = Coin.instantiate()
 		coin3.set_global_position(mesh.global_position + Vector3(0,1,0) + 4 * mesh.global_transform.basis.z.rotated(Vector3(0,1,0),-2.09))
 		coin3.rotation = Vector3(90,0,90)
 		coin3.onetime = true
-		add_sibling(coin3)
+		items.add_sibling(coin3)
 
 func out_of_bounds():
 	player_spawn()
 	out_of_bounds_correction.start()
 
 func player_spawn():
-	var spawn_points = get_parent().find_child('SpawnPoints').get_children()
+	var spawn_points = get_parent().get_parent().find_child('SpawnPoints').get_children()
 	var nearest_spawn_point = spawn_points[0]
 	for spawn_point in spawn_points:
 		if spawn_point.active:
@@ -273,23 +272,19 @@ func _on_join_correction_timeout():
 
 func _on_go_pressed():
 	nametag.text = name_entry.text
-	if name == '1': add_name(name_entry.text)
-	add_name.rpc_id(1,name_entry.text)
+	user_name = name_entry.text
 	start_menu.visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	in_menu = false
 
-@rpc
-func add_name(name):
-	var scoreboard = get_parent().find_child('CanvasLayer').find_child('Scoreboard')
-	scoreboard.player_names[name] = 0
-
-func _update_coins():
-	nametag.text
-	if name == '1': add_coin(nametag.text,coins)
-	add_coin.rpc_id(1,name_entry.text,coins)
-
-@rpc
-func add_coin(name,coins):
-	var scoreboard = get_parent().find_child('CanvasLayer').find_child('Scoreboard')
-	scoreboard.player_names[name] = coins
+func _check_winning():
+	if coins > 0:
+		var players = get_parent().get_children()
+		var winning_player = players[0]
+		for player in players:
+			if player.coins > winning_player.coins:
+				winning_player = player
+		if winning_player.name == name:
+			crown.visible = true
+		else: crown.visible = false
+	else: crown.visible = false
