@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ihq73o2ey28i"]
+[gd_scene load_steps=7 format=3 uid="uid://ihq73o2ey28i"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_cdxq5"]
 [ext_resource type="Script" path="res://Scoreboard.gd" id="2_gw1ik"]
@@ -21,14 +21,6 @@ ssil_intensity = 7.59
 sdfgi_enabled = true
 sdfgi_energy = 2.0
 glow_enabled = true
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_atl2d"]
-properties/0/path = NodePath("CanvasLayer/Scoreboard/MarginContainer/VBoxContainer/PlayersScores:text")
-properties/0/spawn = true
-properties/0/sync = true
-properties/1/path = NodePath("CanvasLayer/Scoreboard:script")
-properties/1/spawn = true
-properties/1/sync = true
 
 [node name="World" type="Node"]
 script = ExtResource("1_cdxq5")
@@ -119,9 +111,6 @@ _spawnable_scenes = PackedStringArray("res://player.tscn")
 spawn_path = NodePath("../Players")
 
 [node name="Players" type="Node3D" parent="."]
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_atl2d")
 
 [node name="Map" parent="." instance=ExtResource("3_a0ccc")]
 
