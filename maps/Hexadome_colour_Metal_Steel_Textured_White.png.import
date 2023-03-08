@@ -2,17 +2,18 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpwa41rfd4bmm"
-path.s3tc="res://.godot/imported/texture_01.png-60e3b3d3143b179c069dbcbff77ff160.s3tc.ctex"
+uid="uid://5152kewjplis"
+path.s3tc="res://.godot/imported/Hexadome_colour_Metal_Steel_Textured_White.png-5024ab2cf8f028b5b73f259c826e7a82.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={}
 
 [deps]
 
-source_file="res://addons/kenney_prototype_textures/dark/texture_01.png"
-dest_files=["res://.godot/imported/texture_01.png-60e3b3d3143b179c069dbcbff77ff160.s3tc.ctex"]
+source_file="res://maps/Hexadome_colour_Metal_Steel_Textured_White.png"
+dest_files=["res://.godot/imported/Hexadome_colour_Metal_Steel_Textured_White.png-5024ab2cf8f028b5b73f259c826e7a82.s3tc.ctex"]
 
 [params]
 

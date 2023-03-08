@@ -51,6 +51,9 @@ properties/12/sync = true
 properties/13/path = NodePath("Model/Mesh/Crown:visible")
 properties/13/spawn = true
 properties/13/sync = true
+properties/14/path = NodePath(".:player_ready")
+properties/14/spawn = true
+properties/14/sync = true
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_t8w5x"]
 radius = 1.0
@@ -573,12 +576,12 @@ theme_override_constants/margin_bottom = 15
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="HUD/ReadyMenu/MarginContainer/VBoxContainer"]
+[node name="ReadyTitle" type="Label" parent="HUD/ReadyMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Waiting..."
 horizontal_alignment = 1
 
-[node name="ItemList" type="ItemList" parent="HUD/ReadyMenu/MarginContainer/VBoxContainer"]
+[node name="ReadyList" type="ItemList" parent="HUD/ReadyMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 auto_height = true
 item_count = 2
@@ -590,6 +593,9 @@ item_1/icon = ExtResource("7_exo3r")
 [node name="Ready" type="Button" parent="HUD/ReadyMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Ready"
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 3.0
 
 [node name="Boost" type="Timer" parent="."]
 wait_time = 2.0
@@ -605,6 +611,7 @@ one_shot = true
 [node name="Colision" type="Timer" parent="."]
 
 [connection signal="pressed" from="HUD/Start Menu/MarginContainer/VBoxContainer/Go" to="." method="_on_go_pressed"]
+[connection signal="pressed" from="HUD/ReadyMenu/MarginContainer/VBoxContainer/Ready" to="." method="_on_ready_pressed"]
 [connection signal="timeout" from="Boost" to="." method="_on_boost_timeout"]
 [connection signal="timeout" from="JoinCorrection" to="." method="_on_join_correction_timeout"]
 [connection signal="timeout" from="OutOfBoundsCorrection" to="." method="_on_out_of_bounds_correction_timeout"]

@@ -3,6 +3,8 @@ const Banana = preload("res://banana.tscn")
 const Shell = preload("res://shell.tscn")
 const Bomb = preload("res://bomb.tscn")
 const Coin = preload("res://coin.tscn")
+const ready_sprite = preload("res://sprites/ready.png")
+const unready_sprite = preload("res://sprites/unready.png")
 @onready var ball = $Ball
 @onready var mesh = $Model
 @onready var model = $Model/Mesh
@@ -25,6 +27,10 @@ const Coin = preload("res://coin.tscn")
 @onready var spring_arm_3d = $Model/SpringArm3D
 @onready var name_entry = $"HUD/Start Menu/MarginContainer/VBoxContainer/Name Entry"
 @onready var start_menu = $"HUD/Start Menu"
+@onready var ready_menu = $HUD/ReadyMenu
+@onready var ready_list = $HUD/ReadyMenu/MarginContainer/VBoxContainer/ReadyList
+@onready var ready_title = $HUD/ReadyMenu/MarginContainer/VBoxContainer/ReadyTitle
+@onready var start_timer = $StartTimer
 @onready var crown = $Model/Mesh/Crown
 #positioning relative to the colision shape
 var sphere_offset = Vector3(0, -1.0,0)
@@ -38,13 +44,13 @@ var sphere_offset = Vector3(0, -1.0,0)
 var boosting = false
 @export var boost = 50
 @onready var hud = $HUD/MarginContainer
-
 #settup input variables
 var speed_input = 0
 var rotate_input = 0
 var boost_current = 0
 @export var coins = 0
 @export var user_name = 'New Player'
+@export var player_ready = false
 var frozen = false
 var in_menu = true
 
@@ -69,6 +75,7 @@ func _physics_process(delta):
 func _process(delta):
 	if not is_multiplayer_authority(): return
 	_check_winning()
+	_get_ready_players()
 	if not ground_ray.is_colliding():
 		return
 	speed_input = 0
@@ -274,6 +281,27 @@ func _on_go_pressed():
 	nametag.text = name_entry.text
 	user_name = name_entry.text
 	start_menu.visible = false
+	ready_menu.visible = true
+
+func _get_ready_players():
+	ready_list.clear()
+	var players = get_parent().get_children()
+	var all_ready = true
+	for player in players:
+		if player.player_ready:
+			ready_list.add_item(player.user_name,ready_sprite)
+		else:
+			ready_list.add_item(player.user_name,unready_sprite)
+			all_ready = false
+	if all_ready:
+		_all_ready()
+
+func _on_ready_pressed():
+	if player_ready: player_ready = false
+	else: player_ready = true
+
+func _all_ready():
+	ready_menu.visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	in_menu = false
 
