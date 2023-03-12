@@ -31,7 +31,10 @@ const unready_sprite = preload("res://sprites/unready.png")
 @onready var ready_list = $HUD/ReadyMenu/MarginContainer/VBoxContainer/ReadyList
 @onready var ready_title = $HUD/ReadyMenu/MarginContainer/VBoxContainer/ReadyTitle
 @onready var start_timer = $StartTimer
+@onready var game_clock_text = $HUD/MarginContainer/GameClockText
 @onready var crown = $Model/Mesh/Crown
+@onready var message = $HUD/Message
+@onready var message_timer = $MessageTimer
 #positioning relative to the colision shape
 var sphere_offset = Vector3(0, -1.0,0)
 @export var acceleration = 50
@@ -51,8 +54,12 @@ var boost_current = 0
 @export var coins = 0
 @export var user_name = 'New Player'
 @export var player_ready = false
+@export var in_game = false
+@export var spectating = false
 var frozen = false
 var in_menu = true
+var current_spectated_player = null
+var current_spectated_player_index = 0
 
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
@@ -74,8 +81,24 @@ func _physics_process(delta):
 
 func _process(delta):
 	if not is_multiplayer_authority(): return
-	_check_winning()
-	_get_ready_players()
+	if in_game:
+		_check_winning()
+		_check_game_time()
+	if not in_game: _get_ready_players()
+	game_clock_text.text = str(round(get_parent().get_parent().find_child('GameClock').time_left))
+	speed_input -= Input.get_action_strength('down')
+	if spectating:
+		if not _check_game_in_progress():
+			spectating = false
+			model.visible = true
+			start_menu.visible = true
+			hud.visible = true
+			message.text = ''
+			current_spectated_player.find_child('HUD').find_child('MarginContainer').visible = false
+			_game_over()
+			ball.freeze = false
+		if current_spectated_player != null:
+			mesh.global_transform = current_spectated_player.find_child('Model').global_transform
 	if not ground_ray.is_colliding():
 		return
 	speed_input = 0
@@ -121,7 +144,8 @@ func _unhandled_input(event):
 		print('you need to make reset work pal')
 	#Long ass code to handle using items, some duplication
 	if Input.is_action_just_pressed("use_item"):
-		
+		if spectating:
+			change_spectated_player()
 		#Handle boost items
 		if item_sprite.frame == 1:
 			boost_current = boost
@@ -275,13 +299,17 @@ func _on_out_of_bounds_correction_timeout():
 	hit_by_item()
 
 func _on_join_correction_timeout():
-	player_spawn()
+	if _check_game_in_progress():
+		_start_spectating()
+	else: player_spawn()
+		
 
 func _on_go_pressed():
 	nametag.text = name_entry.text
 	user_name = name_entry.text
 	start_menu.visible = false
-	ready_menu.visible = true
+	if !spectating:
+		ready_menu.visible = true
 
 func _get_ready_players():
 	ready_list.clear()
@@ -304,7 +332,12 @@ func _all_ready():
 	ready_menu.visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	in_menu = false
-
+	var game_clock = get_parent().get_parent().find_child('GameClock')
+	if game_clock.time_left == 0:
+		game_clock.start()
+		in_game = true
+		return
+	
 func _check_winning():
 	if coins > 0:
 		var players = get_parent().get_children()
@@ -316,3 +349,70 @@ func _check_winning():
 			crown.visible = true
 		else: crown.visible = false
 	else: crown.visible = false
+
+func _check_game_in_progress():
+	var game_in_progress = false
+	var players = get_parent().get_children()
+	for player in players:
+		if player.in_game:
+			game_in_progress = true
+	if game_in_progress: return true
+	else: return false
+
+func _start_spectating():
+	ball.global_translate(Vector3(0,500,0))
+	ball.freeze = true
+	spectating = true
+	model.visible = false
+	start_menu.visible = false
+	hud.visible = false
+	message.text = 'Spectating...'
+	change_spectated_player()
+
+func change_spectated_player():
+	var players = get_parent().get_children()
+	var in_game_players = []
+	for player in players:
+		if player.in_game:
+			in_game_players.append(player)
+	if current_spectated_player == null:
+		current_spectated_player = in_game_players[0]
+	else:
+		current_spectated_player.find_child('HUD').find_child('MarginContainer').visible = false
+		current_spectated_player_index = current_spectated_player_index+1
+		if current_spectated_player_index > in_game_players.size()-1:
+			current_spectated_player_index = 0
+		current_spectated_player = in_game_players[current_spectated_player_index]
+	in_game_players = []
+	current_spectated_player.find_child('HUD').find_child('MarginContainer').visible = true
+	return
+
+func _game_over():
+	if in_game:
+		player_ready = false
+		var players = get_parent().get_children()
+		var winning_player = players[0]
+		for player in players:
+			if player.coins > winning_player.coins:
+				winning_player = player
+		if winning_player.name == name:
+			message.text = 'You Win!'
+		else: message.text = '%s Wins!' % winning_player.user_name
+		if message_timer.is_stopped(): message_timer.start()
+
+func _check_game_time():
+	var game_clock = get_parent().get_parent().find_child('GameClock')
+	if game_clock.time_left == 0:
+		_game_over()
+
+
+func _on_message_timer_timeout():
+	message.text = ''
+	coins = 0
+	coins_display.text = coins
+	item_sprite.frame = 0
+	player_spawn()
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	ready_menu.visible = true
+	in_menu = true
+	in_game = false

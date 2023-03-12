@@ -114,6 +114,10 @@ spawn_path = NodePath("../Players")
 
 [node name="Map" parent="." instance=ExtResource("3_a0ccc")]
 
+[node name="GameClock" type="Timer" parent="."]
+wait_time = 90.0
+one_shot = true
+
 [connection signal="visibility_changed" from="CanvasLayer/Scoreboard" to="CanvasLayer/Scoreboard" method="_on_visibility_changed"]
 [connection signal="pressed" from="CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Host Button" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Main Menu/MarginContainer/VBoxContainer/Join Button" to="." method="_on_join_button_pressed"]
